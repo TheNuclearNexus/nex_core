@@ -1,0 +1,13 @@
+{
+    "providers": [
+        {
+            "type": "bitmap",
+            "file": "nexus:gui/machines/block_breaker.png",
+            "ascent": 13,
+            "height": 256.0,
+            "chars": [
+            "\uF000"
+            ]
+        }
+    ]
+}

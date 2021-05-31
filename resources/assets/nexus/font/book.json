@@ -1,0 +1,25 @@
+{
+    "providers": [
+        {
+            "type": "bitmap",
+            "file": "nexusfont/green_book.png",
+            "ascent": 36,
+            "height": 180,
+            "chars": [ "\uE001" ]
+        },
+        {
+            "type": "bitmap",
+            "file": "nexus:font/blue_book.png",
+            "ascent": 36,
+            "height": 180,
+            "chars": [ "\uE002" ]
+        },
+        {
+            "type": "bitmap",
+            "file": "nexus:font/purple_book.png",
+            "ascent": 36,
+            "height": 180,
+            "chars": [ "\uE003" ]
+        }
+    ]
+}

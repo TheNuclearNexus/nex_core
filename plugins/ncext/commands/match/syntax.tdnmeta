@@ -1,0 +1,41 @@
+return group(
+    brace("("),
+    choice(
+        group(
+            SCORE.storeVar("input").hint("Score to compare"),
+            brace(")"),
+            brace("{"),
+            list(
+                group(
+                    literal("case"),
+                    choice(
+                        INTEGER.storeVar("values"),
+                        INTEGER_NUMBER_RANGE.storeVar("values"),
+                        choice(literal("_"), literal("default")).storeFlat("values")
+                    ),
+                    COLON,
+                    ANONYMOUS_INNER_FUNCTION.storeVar("funcs")
+                ),
+                literal(";")
+            )
+        ),
+        group(
+            COORDINATE_SET.storeVar("input").hint("Block to compare"),
+            brace(")"),
+            brace("{"),
+            list(
+                group(
+                    literal("case"),
+                    choice(
+                        BLOCK_TAGGED.storeVar("values"),
+                        choice(literal("_"), literal("default")).storeFlat("values")
+                    ),
+                    COLON,
+                    ANONYMOUS_INNER_FUNCTION.storeVar("funcs")
+                ),
+                literal(";")
+            )
+        )
+    ),
+    brace("}")
+);

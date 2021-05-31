@@ -1,0 +1,82 @@
+@language_level 3
+
+define function damage {
+    #> In: in nex.data - Damage to deal (1 -> .01)
+    #      in1 nex.data - Ignore Armor
+    
+    if entity @s[type=!player] function {
+        set damage->nex.data = nex.damage->nex.data
+        set use_armor->nex.data = nex.ignore_armor->nex.data
+        
+        unless score use_armor nex.data matches 1 function {
+            store result score health nex.data data get entity @s Health 100
+            
+            set health->nex.data -= damage->nex.data
+            
+            if score health nex.data matches ..-1 set health->nex.data = 0
+            
+            store result entity @s Health float 0.01 scoreboard players get health nex.data
+        }
+        if score use_armor nex.data matches 1 function {
+            set damage->nex.data = nex.damage->nex.data
+            
+            store result score armor nex.data attribute @s generic.armor get 100
+            store result score armor_toughness nex.data attribute @s generic.armor_toughness get 1
+            
+            # a * 100 / 5
+            set fifth_of_armor->nex.data = armor->nex.data
+            set fifth_of_armor->nex.data /= 5
+            
+            # d * 100 * 4
+            set fourXdamage->nex.data = damage->nex.data
+            set fourXdamage->nex.data *= 4
+            
+            # t + 8
+            set armor_toughness->nex.data += 8
+            
+            # d * 100 * 4 / t + 8
+            set fourXdamage->nex.data /= armor_toughness->nex.data
+
+            # a - (d * 100 * 4 / t + 8)
+            set armor->nex.data -= fourXdamage->nex.data
+            
+            # max (a * 100 / 5, a - (d * 100 * 4 / t + 8))
+            ncstd:max fifth_of_armor->nex.data armor->nex.data armor->nex.data
+            
+            # min (2000, max (a * 100 / 5, a - (d * 100 * 4 / t + 8)))
+            
+            ncstd:min 2000 armor->nex.data armor->nex.data
+            
+            
+            # min (2000, max (a * 100 / 5, a - (d * 100 * 4 / t + 8))) / 25
+            set armor->nex.data /= 25
+
+            # 1 - ( min (2000, max (a * 100 / 5, a - (d * 100 * 4 / t + 8))) / 25 )            
+            set scale->nex.data = 100
+            set scale->nex.data -= armor->nex.data
+            
+            set damage->nex.data = nex.damage->nex.data
+            
+            set damage->nex.data *= scale->nex.data
+            
+            set damage->nex.data /= 100
+            
+            store result score health nex.data data get entity @s Health 100
+            
+            set health->nex.data -= damage->nex.data
+            
+            store result entity @s Health float 0.01 scoreboard players get health nex.data
+  
+        }
+        
+                    
+        set damage->nex.data = null
+        set health->nex.data = null
+        set scale->nex.data = null
+        set fourXdamage->nex.data = null
+        set fifth_of_armor->nex.data = null
+        set use_armor->nex.data = null
+        set armor->nex.data = null
+        set armor_toughness->nex.data = null
+    }
+}

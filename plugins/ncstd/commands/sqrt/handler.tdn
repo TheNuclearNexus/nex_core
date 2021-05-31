@@ -1,0 +1,13 @@
+var input : pointer = args["input"]
+var decimal : int = args["decimal"] != null ? args["decimal"] : 0
+
+var scale = 1
+while(decimal > 0) {
+    eval scale *= 10
+    eval decimal--
+}
+
+set $input *= $scale
+set in->nex.data = $input
+/function nexus:core/math/sqrt
+set $input = out->nex.data

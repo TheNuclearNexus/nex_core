@@ -1,0 +1,8 @@
+set temp2->nex.data = in->nex.data
+
+set in->nex.data = in1->nex.data
+set in->nex.data -= temp2->nex.data
+
+function nexus:core/math/random
+
+set out->nex.data += temp2->nex.data

@@ -1,0 +1,34 @@
+return group(
+    choice(
+        group(
+            choice("BASIC","XY_SEEDED","BLOCK_SEEDED").storeFlat("mode").hint("Mode for random()"), 
+            choice(
+                group(
+                    INTEGER.storeVar("min").hint("Minimum number to generate"),
+                    INTEGER.storeVar("max").hint("Maximum number to generate")
+                ),
+                group(
+                    INTEGER.storeVar("max").hint("Maximum number to generate")
+                )
+            )
+        ),
+        group (
+            choice(
+                group(
+                    INTEGER.storeVar("min").hint("Minimum number to generate"),
+                    INTEGER.storeVar("max").hint("Maximum number to generate")
+                ),
+                INTEGER.storeVar("max").hint("Maximum number to generate")
+            )
+        ),
+        group(
+            literal("SALTED_BLOCK_SEEDED").storeFlat("mode").hint("Mode for random()"),
+            group(
+                INTEGER.storeVar("min").hint("Minimum number to generate"),
+                INTEGER.storeVar("max").hint("Maximum number to generate"),
+                INTEGER.storeVar("salt").hint("Salt for random")
+            )
+        )
+    ),
+    optional(SAME_LINE, POINTER.storeVar("out").hint("Optional pointer to store output"))
+);

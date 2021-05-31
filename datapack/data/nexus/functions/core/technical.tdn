@@ -1,0 +1,7 @@
+@priority 1
+define function is_chunk_loaded {
+    function nexus:core/internal/01/technical/is_chunk_loaded
+}
+define function setup_chunk {
+    function nexus:core/internal/01/technical/setup_chunk
+}

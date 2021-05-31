@@ -1,0 +1,110 @@
+define function fill {
+    for(var i = 0; i < 27; i++) {
+        
+        replaceitem block 420001 0 420001 ${"container." + i} minecraft:light_gray_stained_glass_pane{clear:1b}
+        
+    }
+}
+define function clear {
+    for(var i = 0; i < 27; i++) {
+        if data block 420001 0 420001 Items[{Slot:${(tag_byte) i},tag:{clear:1b}}] replaceitem block 420001 0 420001 ${"container." + i} air
+    }
+}
+
+
+define function setup {
+    set nex_core~Player = {Inventory:[],Mainhand:{}}
+    
+    set nex_core~Player.Inventory = @s.Inventory
+    set nex_core~Player.Mainhand = @s.SelectedItem
+}
+
+define function load_mainhand {
+    
+    in overworld function {
+    function nexus:core/player/inventory/fill
+    set (420001 0 420001).Items[{Slot:0b}] = nex_core~Player.Mainhand
+    loot replace entity @s weapon.mainhand 1 mine 420001 0 420001 air{drop_contents:1b}
+    function nexus:core/player/inventory/clear
+    }
+    
+    clear @s minecraft:light_gray_stained_glass{clear:1b}
+}
+
+define function load_offhand {
+    in overworld function {
+    set (420001 0 420001).Items = [{Slot:0b,id:"minecraft:light_gray_stained_glass_pane",Count:1b,tag:{clear:1b}}]
+    set (420001 0 420001).Items[0].id = nex_core~Player.Inventory[{Slot:-106b}].id
+    set (420001 0 420001).Items[0].tag = nex_core~Player.Inventory[{Slot:-106b}].tag
+    set (420001 0 420001).Items[0].Count = nex_core~Player.Inventory[{Slot:-106b}].Count
+            
+    loot replace entity @s weapon.offhand mine 420001 0 420001 air{drop_contents:1b}
+    }
+}
+
+define function load_hotbar {
+    #function nexus:core/player/inventory/fill
+    
+    in overworld function {
+    
+    for(var i = 0; i < 9; i++){
+        function {
+            set (420001 0 420001).Items = [{Slot:0b,id:"minecraft:light_gray_stained_glass_pane",Count:1b,tag:{clear:1b}}]
+            set (420001 0 420001).Items[0].id = nex_core~Player.Inventory[{Slot:${(tag_byte) (i)}}].id
+            set (420001 0 420001).Items[0].tag = nex_core~Player.Inventory[{Slot:${(tag_byte) (i)}}].tag
+            set (420001 0 420001).Items[0].Count = nex_core~Player.Inventory[{Slot:${(tag_byte) (i)}}].Count
+            
+            loot replace entity @s ${"hotbar." + i} 1 mine 420001 0 420001 air{drop_contents:1b}
+        }
+    }
+        
+    }
+    
+    clear @s minecraft:light_gray_stained_glass_pane{clear:1b}
+}
+
+define function load_inventory {
+
+    in overworld function {
+    
+    for(var i = 0; i < 27; i++){
+        function {
+            set (420001 0 420001).Items = [{Slot:0b,id:"minecraft:light_gray_stained_glass_pane",Count:1b,tag:{clear:1b}}]
+            set (420001 0 420001).Items[0].id = nex_core~Player.Inventory[{Slot:${(tag_byte) (i+9)}}].id
+            set (420001 0 420001).Items[0].tag = nex_core~Player.Inventory[{Slot:${(tag_byte) (i+9)}}].tag
+            set (420001 0 420001).Items[0].Count = nex_core~Player.Inventory[{Slot:${(tag_byte) (i+9)}}].Count
+            
+            loot replace entity @s ${"inventory." + i} 1 mine 420001 0 420001 air{drop_contents:1b}
+        }
+    }
+    
+    clear @s minecraft:light_gray_stained_glass_pane{clear:1b}
+    }
+}
+
+define function load_armor {
+
+    in overworld function {
+    var slot = ["feet","legs","chest","head"]
+    for(var i = 0; i < 4; i++){
+        function {
+            set (420001 0 420001).Items = [{Slot:0b,id:"minecraft:light_gray_stained_glass_pane",Count:1b,tag:{clear:1b}}]
+            set (420001 0 420001).Items[0].id = nex_core~Player.Inventory[{Slot:${(tag_byte) (i+100)}}].id
+            set (420001 0 420001).Items[0].tag = nex_core~Player.Inventory[{Slot:${(tag_byte) (i+100)}}].tag
+            set (420001 0 420001).Items[0].Count = nex_core~Player.Inventory[{Slot:${(tag_byte) (i+100)}}].Count
+            
+            loot replace entity @s ${"armor." + slot[i]} 1 mine 420001 0 420001 air{drop_contents:1b}
+        }
+    }
+    
+    clear @s minecraft:light_gray_stained_glass_pane{clear:1b}
+    }
+}
+
+define function load_all {
+    function nexus:core/player/inventory/load_mainhand
+    function nexus:core/player/inventory/load_offhand
+    function nexus:core/player/inventory/load_hotbar
+    function nexus:core/player/inventory/load_inventory
+    function nexus:core/player/inventory/load_armor
+}

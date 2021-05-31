@@ -1,0 +1,13 @@
+var objA : pointer = args["objA"] != null ? args["objA"] : pointer<out->nex.data>
+var objB : pointer = args["objB"] != null ? args["objB"] : pointer<out->nex.data>
+var const : int = args["const"] != null ? args["const"] : 0
+var out : pointer = args["out"] != null ? args["out"] : pointer<out->nex.data>
+
+do if(args["const"] != null) {
+    if score deref $objB matches ${int_range<..$const>} set $out = $objB
+    unless score deref $objB matches ${int_range<..$const>} set $out = $const
+}
+do if (args["objA"] != null) {
+    if score deref $objB < deref $objA set $out = $objB
+    if score deref $objB >= deref $objA set $out = $objA
+}

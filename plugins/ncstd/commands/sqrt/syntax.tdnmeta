@@ -1,0 +1,6 @@
+return group(
+    SCORE.storeVar("input").hint("Score to square root"),
+    optional(
+        INTEGER.storeVar("decimal").hint("Amount of decimal places")
+    )
+);

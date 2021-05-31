@@ -1,0 +1,279 @@
+@priority 100
+@require nexus:ncstd/objects
+
+define global static class CollectionUtil {
+    public static swap(arr : list, i : int, j : int) {
+        var t = arr[i]
+        eval arr[i] = arr[j]
+        eval arr[j] = t
+    }
+    
+    public static isPrimitive(o) : boolean {
+        switch(type_definition.of(o)) {
+            case type_definition<tag_compound>:
+            case type_definition<text_component>:
+            case type_definition<nbt_value>:
+            case type_definition<item>:
+            case type_definition<block>:
+            case type_definition<entity>:
+            case type_definition<real_range>:
+            case type_definition<int_range>:
+            case type_definition<boolean>:
+            case type_definition<real>:
+            case type_definition<int>:
+            case type_definition<string>: {
+                return true
+            }
+            default: {
+                return false
+            }
+        }
+    }
+    
+    static compare(a, b) {
+        do if(type_definition.of(a) != type_definition.of(b)) throw "Type mismatch! Cannot compare " + type_definition.of(a) + " to " + type_definition.of(b)
+        
+        switch(type_definition.of(a)) {
+            case type_definition<int>: {
+                return a - b
+            }
+            case type_definition<real>: {
+                return a - b
+            }
+            case type_definition<boolean>: {
+                do if(a == b) return 0
+                else if (!a && b) return -1
+                else if (a && !b) return 1 
+            }
+            case type_definition<string>: {
+                return StringUtil.compareTo(a, b)
+            }
+            default: {
+                do if(a is IComparable) {
+                    return a.compareTo(b)
+                } else {
+                    throw "Object does not implement 'IComparable' so it cannot be sorted"
+                }
+            }
+        }
+    }
+    
+    public static partition(arr : list, low : int, high : int) : int {
+        var pivot = arr[high]
+        
+        var i = low - 1
+        for(var j = low; j <= high - 1; j++) {
+            do if(compare(arr[j], pivot) < 0) {
+                eval i += 1
+                eval swap(arr, i, j)
+            }
+        }
+        eval swap(arr, i+1, high)
+        return (i + 1)
+    } 
+    
+    public static quickSort(arr : list, low : int, high : int) {
+        do if(low < high) {
+            var pi : int = partition(arr, low, high)
+            
+            eval quickSort(arr, low, pi - 1)
+            eval quickSort(arr, pi + 1, high)
+        }
+    }
+    
+    public static binSearch(arr : list, val, low : int, high : int) : int{
+
+        do if (low > high) return -1
+        
+        var mid : int = (low + high) / 2
+        var r : int = compare(arr[mid].key, val)
+
+        do if(r < 0) {
+            return binSearch(arr, val, mid + 1, high)
+        } else if (r > 0) {
+            return binSearch(arr, val, low, mid - 1)
+        }
+        else
+            return mid
+    }
+}
+
+define global class TypedList<T> {
+    private var list : list
+    
+    public new() {
+        eval list = []
+    }
+    public new(values : list) {
+        eval list = []
+        for(i in values) {
+            do if(i is T) eval list.add(i)
+        }
+    }
+    
+    public length {
+        get : int {
+            return list.length
+        }
+    }
+    
+    public contains(val : T) : boolean {
+        eval sort()
+        var r = CollectionUtil.binSearch(list, val, 0, list.length - 1)
+        if(r == -1) return false
+        return true
+    }
+    
+    public sort() {
+        eval CollectionUtil.quickSort(list, 0, list.length - 1)
+    }
+    
+    public this[index : int] {
+        get : T {
+            do if(index < list.length && index >= 0)
+                return list[index]
+            else
+                throw "IndexOutOfBounds"
+        }
+        set (value : T) {
+            do if(index < list.length && index >= 0) {
+                eval list[index] = value
+            }
+            else
+                throw "IndexOutOfBounds"
+        }
+    }
+
+    public add(val : T) {
+        eval list.add(val)
+    }
+    
+    public override getIterator() {
+        return list
+    }
+    
+    public override toString() : string {
+#        var o : string = "["
+#        
+#        for(v in list) {
+#            eval o += (v is primitve ? v.toString() : (string)v) + ", "
+#        }
+#        
+#        return o.substring(0, o.length - 2) + "]" 
+        return (string)list       
+    }
+}
+
+define global class TypedDict<T1, T2> {
+    private var list : list = []
+
+    public new() {
+        eval list = []
+    }
+    public new(values : list) {
+        for(i in values) {
+            do if( !(i is KeyPair<T1, T2>)) {continue}
+            eval list.add(i)
+        }
+    }
+    
+    public length {
+        get : int {
+            return list.length
+        }
+    }
+    
+    public contains(key : T1) {
+        for(i in list) {
+            do if(i == key) return true
+        }
+        return false
+    }
+    
+    public getElementAt(index : int) {
+        do if(index >= 0 && index < list.length){
+            return list[index]
+        }
+        else
+            throw "IndexOutOfBounds"
+    }
+    
+    public sort() {
+        eval CollectionUtil.quickSort(list, 0, list.length-1)
+    }
+    
+
+    
+    public this[key : T1] {
+        get : T2 {
+            
+            do if(CollectionUtil.isPrimitive(key) || key is IComparable) {
+                
+                
+                for(var i = 0; i < list.length - 1; i++) {
+                    do if(CollectionUtil.compare(list[i].key, list[i+1].key) > 0) {
+                        eval sort()
+                        break
+                    }
+                }
+                
+                var r : int = CollectionUtil.binSearch(list, key, 0, list.length - 1)
+                return r != -1 ? list[r].value : null
+            }                
+            for(i in list) {
+                do if(i == key) return i.value
+            }
+            return null
+        }
+        set (value : T2) {
+            do if(CollectionUtil.isPrimitive(key) || key is IComparable) {
+                
+                for(var i = 0; i < list.length - 1; i++) {
+                    do if(CollectionUtil.compare(list[i].key, list[i+1].key) > 0) {
+                        eval sort()
+                        break
+                    }
+                }
+                
+                var r : int = CollectionUtil.binSearch(list, key, 0, list.length - 1)
+                do if(r != -1) {
+                    var temp = list[r].value
+                    eval list[r].value = value
+                    return temp
+                }
+            } else {
+                for(var i = 0; i < list.length; i++) {
+                    do if(list[i].key == key) {
+                        var temp = list[i].value
+                        eval list[i].value = value
+                        return temp 
+                    }
+                }
+            }
+            return null
+        }
+    }
+    
+    public add(key : T1, val : T2) {
+        do if(!contains(key))
+            eval list.add(new KeyPair<T1,T2>(key,val))
+    }
+    
+    public override getIterator() {
+        return list
+    }
+    
+    public keys {
+        get : TypedList<T1> {
+            var ls = new TypedList<T1>()
+            for (e in list) {
+                eval ls.add(e.key)
+            }
+            return ls
+        }
+    }
+    
+    public override toString() : string {
+        return (string)list
+    }
+}

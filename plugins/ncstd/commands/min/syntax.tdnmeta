@@ -1,0 +1,5 @@
+return group(
+    choice(INTEGER.storeVar("const").hint("Constant int for comparison"), POINTER.storeVar("objA").hint("First pointer to check against")), 
+    POINTER.storeVar("objB").hint("Second pointer to check against"), 
+    optional(SAME_LINE, POINTER.storeVar("out").hint("Output pointer, defaults to out->nex.data"))
+);

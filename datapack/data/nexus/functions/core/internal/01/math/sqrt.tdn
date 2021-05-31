@@ -1,0 +1,18 @@
+set counter->nex.data = 0
+set out->nex.data = in->nex.data
+set out->nex.data /= 2
+
+function loop {
+    set counter->nex.data += 1
+    set sqrt.temp->nex.data = in->nex.data
+    set sqrt.temp->nex.data /= out->nex.data
+    set sqrt.temp->nex.data += out->nex.data
+    set sqrt.temp->nex.data /= 2
+    set out->nex.data = sqrt.temp->nex.data
+    
+    if score counter nex.data matches ..16 function /
+    unless score counter nex.data matches ..16 function {
+        set sqrt.temp->nex.data = null
+        set counter->nex.data = null
+    }
+}

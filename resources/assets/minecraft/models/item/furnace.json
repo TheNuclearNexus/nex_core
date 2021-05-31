@@ -1,0 +1,19 @@
+{
+  "parent": "minecraft:block/furnace",
+    "overrides": [
+        { "predicate": { "custom_model_data": 4250000 }, "model": "nexus:block/machines/generator" },
+        { "predicate": { "custom_model_data": 4250001 }, "model": "nexus:block/machines/ender_transmitter" },
+        { "predicate": { "custom_model_data": 4250002 }, "model": "nexus:block/machines/ender_junction" },
+        { "predicate": { "custom_model_data": 4250003 }, "model": "nexus:block/machines/power_cell_base" },
+        { "predicate": { "custom_model_data": 4250004 }, "model": "nexus:block/machines/power_cell_tier_2" },
+        { "predicate": { "custom_model_data": 4250005 }, "model": "nexus:block/machines/power_cell_tier_3" },
+        { "predicate": { "custom_model_data": 4250006 }, "model": "nexus:block/machines/crafter" },
+        { "predicate": { "custom_model_data": 4250007 }, "model": "nexus:block/machines/power_cell_base_empty" },
+        { "predicate": { "custom_model_data": 4250008 }, "model": "nexus:block/machines/power_cell_tier_2_empty" },
+        { "predicate": { "custom_model_data": 4250009 }, "model": "nexus:block/machines/power_cell_tier_3_empty" },
+        { "predicate": { "custom_model_data": 4250010 }, "model": "nexus:block/machines/alloy_smelter" },
+        { "predicate": { "custom_model_data": 4250011 }, "model": "nexus:block/machines/radium_ore" },
+        { "predicate": { "custom_model_data": 4250012 }, "model": "nexus:block/magic/enchantment_circle" },
+        { "predicate": { "custom_model_data": 4250013 }, "model": "nexus:block/magic/offering_circle" }
+    ]
+}

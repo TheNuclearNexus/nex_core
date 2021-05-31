@@ -1,0 +1,42 @@
+advancement revoke @s only nexus:place_furnace
+define function layer {
+    for (var x = -6; x < 7; x++) {
+        for (var z = -6; z < 7; z++) {
+            var coords = coordinates<~ ~ ~>.deriveMagnitude(x, Axis.X)
+            var coords = coords.deriveMagnitude(z, Axis.Z)
+            
+            positioned $coords if block ~ ~ ~ minecraft:furnace{Items:[{id:"minecraft:stone",Count:1b,tag:{nex_block:1b}}]} function {
+                store result score block.id nex.data data get block ~ ~ ~ Items[0].tag.nex_block_id
+                function #nexus:core/place_furnace
+            }
+        }
+    }
+}
+
+for(var y = -7; y < 7; y++) {
+    var coords = coordinates<~.5 ~ ~.5>.deriveMagnitude(y + .5, Axis.Y)
+    align xyz positioned $coords function nexus:core/place_furnace/layer
+}
+
+#anchored eyes positioned ^ ^ ^0 anchored feet function placed {
+#    
+#    set length->nex.data = 50
+#    
+#    function loop {
+#        
+#        if block ~ ~ ~ #nexus:air function {
+#            set length->nex.data -= 1
+#            if score length nex.data matches 1.. positioned ^ ^ ^0.1 function nexus:core/place_furnace/placed/loop
+#        }
+#        
+#        if block ~ ~ ~ minecraft:furnace{Items:[{tag:{nex_block:1b}}]} function {
+#            
+#            store result score block.id nex.data data get block ~ ~ ~ Items[0].tag.nex_id
+#            
+#            fill ~ ~ ~ ~ ~ ~ minecraft:command_block[facing=north]{Command:"function #nexus:core/place_furnace",auto:1b} replace minecraft:furnace[facing=north]{Items:[{tag:{nex_block:1b}}]}
+#            fill ~ ~ ~ ~ ~ ~ minecraft:command_block[facing=east]{Command:"function #nexus:core/place_furnace",auto:1b} replace minecraft:furnace[facing=east]{Items:[{tag:{nex_block:1b}}]}
+#            fill ~ ~ ~ ~ ~ ~ minecraft:command_block[facing=south]{Command:"function #nexus:core/place_furnace",auto:1b} replace minecraft:furnace[facing=south]{Items:[{tag:{nex_block:1b}}]}
+#            fill ~ ~ ~ ~ ~ ~ minecraft:command_block[facing=west]{Command:"function #nexus:core/place_furnace",auto:1b} replace minecraft:furnace[facing=west]{Items:[{tag:{nex_block:1b}}]}
+#        }
+#    }
+#}

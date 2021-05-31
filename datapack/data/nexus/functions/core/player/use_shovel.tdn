@@ -1,0 +1,31 @@
+@language_level 3
+define item default minecraft:wooden_shovel {
+    on used function {
+        function #nexus:events/player/use_shovel
+    }
+}
+define item default minecraft:stone_shovel {
+    on used function {
+        function #nexus:events/player/use_shovel
+    }
+}
+define item default minecraft:iron_shovel {
+    on used function {
+        function #nexus:events/player/use_shovel
+    }
+}
+define item default minecraft:golden_shovel {
+    on used function {
+        function #nexus:events/player/use_shovel
+    }
+}
+define item default minecraft:diamond_shovel {
+    on used function {
+        function #nexus:events/player/use_shovel
+    }
+}
+define item default minecraft:netherite_shovel {
+    on used function {
+        function #nexus:events/player/use_shovel
+    }
+}

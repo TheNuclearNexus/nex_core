@@ -1,0 +1,8 @@
+function nexus:core/technical/is_chunk_loaded
+
+loot replace block 420001 0 420001 container.0 loot nexus:random
+execute store result score out nex.data run data get block 420001 0 420001 Items[0].tag.AttributeModifiers[0].Amount 2000000
+scoreboard players operation out nex.data %= in nex.data
+
+#check for 0 in
+execute if score in nex.data matches 0 run scoreboard players set out nex.data 0

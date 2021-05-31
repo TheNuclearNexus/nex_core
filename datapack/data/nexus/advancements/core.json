@@ -1,0 +1,25 @@
+{
+    "__comment": "Made with TheDestruc7i0n's advancements generator: https://advancements.thedestruc7i0n.ca",
+    "display": {
+        "title": {
+            "text": "Core                       ",
+            "color": "gold"
+        },
+        "description": {
+            "text": "Core datapack for all Nexus' Modules"
+        },
+        "icon": {
+            "item": "minecraft:command_block"
+        },
+        "frame": "task",
+        "show_toast": false,
+        "announce_to_chat": false,
+        "hidden": false
+    },
+    "criteria": {
+        "tick": {
+            "trigger": "minecraft:tick"
+        }
+    },
+    "parent": "nexus:root"
+}

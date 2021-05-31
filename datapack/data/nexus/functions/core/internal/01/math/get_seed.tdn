@@ -1,0 +1,23 @@
+#assign placeholder
+set temp5->nex.data = in->nex.data
+set temp6->nex.data = in1->nex.data
+
+set temp7->nex.data = 0
+
+# shift in
+function nexus:core/math/xor_shift
+set temp7->nex.data += out->nex.data
+
+#shift in1
+set in->nex.data = in1->nex.data
+function nexus:core/math/xor_shift
+set temp7->nex.data *= out->nex.data
+
+#shift temp
+set in->nex.data = temp7->nex.data
+function nexus:core/math/xor_shift
+#return out
+
+#reset in & in1
+set in->nex.data = temp5->nex.data
+set in1->nex.data = temp6->nex.data

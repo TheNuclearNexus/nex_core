@@ -1,0 +1,31 @@
+{
+  "providers": [
+        {
+            "type": "bitmap",
+            "file": "nexus:gui/machines/power_cell_tier1.png",
+            "ascent": 13,
+            "height": 256.0,
+            "chars": [
+            "\uF001"
+            ]
+        },
+        {
+            "type": "bitmap",
+            "file": "nexus:gui/machines/power_cell_tier2.png",
+            "ascent": 13,
+            "height": 256.0,
+            "chars": [
+            "\uF002"
+            ]
+        },
+                {
+            "type": "bitmap",
+            "file": "nexus:gui/machines/power_cell_tier3.png",
+            "ascent": 13,
+            "height": 256.0,
+            "chars": [
+            "\uF003"
+            ]
+        }
+    ]
+}

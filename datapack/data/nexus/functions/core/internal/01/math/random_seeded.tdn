@@ -1,0 +1,15 @@
+scoreboard players operation out1 nex.data = in1 nex.data
+
+#LCG
+scoreboard players operation out1 nex.data *= world_seed nex.data
+
+scoreboard players add out1 nex.data 12345
+
+#output
+scoreboard players operation out nex.data = out1 nex.data
+scoreboard players operation out nex.data /= 16 nex.data
+scoreboard players operation out nex.data %= in nex.data
+execute if score out nex.data matches ..-1 run set out->nex.data *= -1
+
+#check for 0 range
+execute if score in nex.data matches 0 run scoreboard players set out nex.data 0

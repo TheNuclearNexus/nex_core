@@ -1,0 +1,39 @@
+############################################################
+# Description: Damages a player for one heart
+# Creator: CreeperMagnet_
+############################################################
+
+attribute @s[scores={nex.data=128..}] minecraft:generic.max_health modifier add 2-0-3-3-7 damage_128 -12.8 add
+scoreboard players remove @s[scores={nex.data=128..}] nex.data 128
+attribute @s[scores={nex.data=64..}] minecraft:generic.max_health modifier add 2-0-3-3-6 damage_64 -6.4 add
+scoreboard players remove @s[scores={nex.data=64..}] nex.data 64
+attribute @s[scores={nex.data=32..}] minecraft:generic.max_health modifier add 2-0-3-3-5 damage_32 -3.2 add
+scoreboard players remove @s[scores={nex.data=32..}] nex.data 32
+attribute @s[scores={nex.data=16..}] minecraft:generic.max_health modifier add 2-0-3-3-4 damage_16 -1.6 add
+scoreboard players remove @s[scores={nex.data=16..}] nex.data 16
+attribute @s[scores={nex.data=8..}] minecraft:generic.max_health modifier add 2-0-3-3-3 damage_8 -0.8 add
+scoreboard players remove @s[scores={nex.data=8..}] nex.data 8
+attribute @s[scores={nex.data=4..}] minecraft:generic.max_health modifier add 2-0-3-3-2 damage_4 -0.4 add
+scoreboard players remove @s[scores={nex.data=4..}] nex.data 4
+attribute @s[scores={nex.data=2..}] minecraft:generic.max_health modifier add 2-0-3-3-1 damage_2 -0.2 add
+scoreboard players remove @s[scores={nex.data=2..}] nex.data 2
+attribute @s[scores={nex.data=1..}] minecraft:generic.max_health modifier add 2-0-3-3-0 damage_1 -0.1 add
+scoreboard players remove @s[scores={nex.data=1..}] nex.data 1
+scoreboard players set @s nex.data2 0
+scoreboard players set @s nex.data 0
+execute store result score @s[nbt={ActiveEffects:[{Id:11b}]}] nex.data run data get entity @s ActiveEffects[{Id:11b}].Amplifier
+execute if entity @s[nbt={ActiveEffects:[{Id:11b}]},scores={nex.data=..3}] run data modify storage nex_core Damage.Temp.ResistanceStorage insert 0 from entity @s ActiveEffects[{Id:11b}]
+effect give @s[scores={nex.data=0..3}] resistance 1 255 true
+effect give @s instant_damage 1 0 true
+effect give @s minecraft:health_boost 1 0 true
+effect clear @s minecraft:health_boost
+attribute @s minecraft:generic.max_health modifier remove 2-0-3-3-7
+attribute @s minecraft:generic.max_health modifier remove 2-0-3-3-6
+attribute @s minecraft:generic.max_health modifier remove 2-0-3-3-5
+attribute @s minecraft:generic.max_health modifier remove 2-0-3-3-4
+attribute @s minecraft:generic.max_health modifier remove 2-0-3-3-3
+attribute @s minecraft:generic.max_health modifier remove 2-0-3-3-2
+attribute @s minecraft:generic.max_health modifier remove 2-0-3-3-1
+attribute @s minecraft:generic.max_health modifier remove 2-0-3-3-0
+tag @s[scores={nex.data=0..3}] add nex.scheduled.resistance
+execute if entity @s[scores={nex.data=0..3}] run schedule function nexus:core/player/damage/scheduled_resistance 2t append

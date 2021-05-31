@@ -1,0 +1,2 @@
+/${"execute store success score temp nex.data positioned " + chunk.shulkerBox + " if block ~ ~ ~ minecraft:green_shulker_box"}
+if score temp nex.data matches 0 function nexus:core/technical/setup_chunk

@@ -1,0 +1,13 @@
+define function one_second {
+    schedule function / 1s append
+    
+    function #nexus:events/timed/1_sec
+    
+}
+
+define function 5_tick {
+    schedule function / 5t append
+    
+    function #nexus:events/timed/5_tick
+    
+}

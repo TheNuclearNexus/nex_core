@@ -1,0 +1,25 @@
+@tag version:post_load
+@priority -1
+tellraw @a [{"text":"[","color":"gold"},{"text":"Nexus' Modules","color":"green"},"] 'Core' v",{"score":{"name":"425.nex_core","objective":"major"}},".",{"score":{"name":"425.nex_core","objective":"minor"}},".",{"score":{"name":"425.nex_core","objective":"patch"}}, " Loaded"]
+
+
+in overworld function nexus:core/internal/01/technical/setup_chunk
+in the_nether function nexus:core/internal/01/technical/setup_chunk
+in the_end function nexus:core/internal/01/technical/setup_chunk
+
+#unless data storage nex.core 
+
+team add nex.no_cllsn
+team modify nex.no_cllsn collisionRule never
+
+# Syntax: {id:4250000,vein:{max:4,min:1},height:{min:1,max:10},rarity:20} 
+set nex_core~Ores = []
+
+function #nexus:core/register_ores
+
+# Loops
+schedule clear nexus:core/loop/one_second
+schedule function nexus:core/loop/one_second 1s append
+
+schedule clear nexus:core/loop/5_tick
+schedule function nexus:core/loop/5_tick 5t append

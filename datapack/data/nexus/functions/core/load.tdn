@@ -1,0 +1,8 @@
+@tag version:load
+@priority -1
+
+set 425.nex_core->major = 0
+set 425.nex_core->minor = 1
+set 425.nex_core->patch = 0
+
+store result score world_seed nex.data seed

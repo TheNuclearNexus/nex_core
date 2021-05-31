@@ -1,0 +1,24 @@
+#assign initial values
+set temp->nex.data = in->nex.data
+set temp1->nex.data = in1->nex.data
+
+set temp2->nex.data = null
+scoreboard players set 2 nex.data 2
+
+#setup 
+set out->nex.data = temp->nex.data
+set out->nex.data += temp1->nex.data
+
+# AND calculation:
+if score temp nex.data matches ..-1 if score temp1 nex.data matches ..-1 run scoreboard players set temp2 nex.data -2147483648
+
+for(var i = 1073741824; i >= 1; i /= 2) {
+    set temp->nex.data *= 2
+    set temp1->nex.data *= 2
+    if score temp nex.data matches ..-1 if score temp1 nex.data matches ..-1 set temp2->nex.data += $i
+}
+
+# (End of AND calculation)
+
+set out->nex.data -= temp2->nex.data
+set out->nex.data -= temp2->nex.data

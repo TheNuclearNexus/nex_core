@@ -1,0 +1,36 @@
+define function get_element {
+    # In: Temp~nex_core | Your array
+    # In 2: in->nex.data | The index (max 999)
+    # Out: Temp~nex_core
+    
+    store result score temp nex.data data get storage nex_core Temp
+    
+    if score in nex.data < temp nex.data function {
+        for(var i = 0; i < 1000; i = i + 100) {
+            if score in nex.data matches $i..${i+99} function {
+                if score in nex.data matches $i..${i+24} function {
+                    for(var s = i; s < i+25; s++) {
+                        if score in nex.data matches $s set nex_core~Temp = nex_core~Temp[$s]
+                    }
+                }
+                if score in nex.data matches ${i+25}..${i+49} function {
+                    for(var s = i+25; s < i+50; s++) {
+                        if score in nex.data matches $s set nex_core~Temp = nex_core~Temp[$s]
+                    }
+                }
+                if score in nex.data matches ${i+50}..${i+74} function {
+                    for(var s = i+50; s < i+75; s++) {
+                        if score in nex.data matches $s set nex_core~Temp = nex_core~Temp[$s]
+                    }
+                }
+                if score in nex.data matches ${i+75}..${i+99} function {
+                    for(var s = i+75; s < i+100; s++) {
+                        if score in nex.data matches $s set nex_core~Temp = nex_core~Temp[$s]
+                    }
+                }
+                
+            }
+        }
+    }
+}
+

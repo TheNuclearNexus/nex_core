@@ -1,0 +1,13 @@
+{
+  "providers": [
+        {
+            "type": "bitmap",
+            "file": "nexus:misc/radiation.png",
+            "ascent": 128.0,
+            "height": 256.0,
+            "chars": [
+            "\uF000"
+            ]
+        }
+    ]
+}

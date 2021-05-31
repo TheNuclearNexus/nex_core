@@ -1,0 +1,13 @@
+
+eval chunk.forceload()
+        
+positioned ${chunk.chunk} unless block ~ 2 ~ air fill 420000 0 420000 420015 1 420015 minecraft:bedrock
+setblock ${chunk.shulkerBox} minecraft:green_shulker_box[facing=down]
+setblock ${chunk.sign} minecraft:oak_sign
+
+# Bedrock
+positioned ${chunk.endGateway} expand {
+    setblock ~ 0 ~ minecraft:bedrock
+    setblock ~ 1 ~ minecraft:end_gateway{ExactTeleport:1b,ExitPortal:{X:0,Y:0,Z:0}} replace
+    setblock ~ 2 ~ minecraft:air
+}

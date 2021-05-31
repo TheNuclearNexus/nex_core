@@ -1,0 +1,111 @@
+@language_level 3
+@priority 1
+define function abs {
+    # In: in nex.data
+    # Out out nex.data
+    
+    set out->nex.data = in->nex.data 
+    if score in nex.data matches ..-1 function {
+        set out->nex.data *= -1
+    }
+}
+
+define function sqrt {
+    # In: in nex.data
+    # Out out nex.data
+    function nexus:core/internal/01/math/sqrt
+}
+
+define function random {
+    ## in: max output value (0-2^16)
+    #> out: generated random number
+    function nexus:core/internal/01/math/random
+}
+
+define function random_seeded {
+    ## in: max output value (0-100,000,000)
+    ## in1: input seed
+    #> out: generated random number
+    #> out1: new seed
+    
+    function nexus:core/internal/01/math/random
+}
+
+define function random_min {
+    # Min: in nex.data 
+    # Max: in1 nex.data
+    # Out: out nex.data
+    
+    function nexus:core/internal/01/math/random_min
+}
+
+
+
+define function xor_bitwise {
+    ## in: number to shift
+    #> in1: input to bit_shift
+    #> out: shifted number
+    
+    #> temp: in_0 holder
+    #> temp1: in_1 holder
+    #> temp2: multiplier
+    
+    function nexus:core/internal/01/math/bitwise/xor
+    
+}
+
+define function xor_shift {
+    ## in: number to shift
+    #> in1: input to bit_shift
+    #> out: shifted number
+    
+    #> temp: quick maths
+    #> temp3: in_0 holder
+    #> temp4: in_1 holder
+    
+    function nexus:core/internal/01/math/bitwise/xor_shift
+}
+
+define function get_seed {
+    ## in: x pos
+    ## in1: y pos
+    #> out: generated random number
+    
+    #> temp: quick maths
+    #> temp5: in holder
+    #> temp6: in1 holder
+    #> temp7: output holder
+    
+    function nexus:core/internal/01/math/get_seed
+}
+
+define function random_xy_seeded {
+    #> RUN AS AN ENTITY
+    ## in: max output value (0-100,000,000)
+    #> out: generated number
+    
+    #> temp8: in holder
+    
+    function nexus:core/internal/01/math/random/entity
+}
+
+define function random_block_seeded {
+    #> RUN AT A BLOCK
+    ## in: max output value (0-100,000,000)
+    #> out: generated number
+    
+    #> temp8: in holder
+    
+    function nexus:core/internal/01/math/random/block
+}
+
+define function random_block_seeded_salted {
+    #> RUN AT A BLOCK
+    ## in: max output value (0-100,000,000)
+    ## in1: salt
+    #> out: generated number
+    
+    #> temp8: in holder
+    
+    function nexus:core/internal/01/math/random/block_salted
+}

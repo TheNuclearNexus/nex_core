@@ -1,0 +1,36 @@
+{
+    "gui_light": "front",
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "nexus:gui/machines/power/20",
+		"particle": "nexus:gui/machines/power/0"
+	},
+	"elements": [
+		{
+			"name": "20_0",
+			"from": [5.66667, 0, 1],
+			"to": [10.33333, 0.33333, 15],
+			"faces": {
+				"north": {"uv": [10.33333, 1, 5.66667, 1.33333], "texture": "#0"},
+				"east": {"uv": [10, 1, 10.33333, 15], "rotation": 90, "texture": "#0"},
+				"south": {"uv": [5.66667, 14.66667, 10.33333, 15], "texture": "#0"},
+				"west": {"uv": [5.66667, 1, 6, 15], "rotation": 270, "texture": "#0"},
+				"up": {"uv": [5.66667, 1, 10.33333, 15], "texture": "#0"},
+				"down": {"uv": [5.66667, 15, 10.33333, 1], "texture": "#0"}
+			}
+		}
+	],
+	"display": {
+		"gui": {
+			"rotation": [90, 0, 0],
+			"scale": [3, 3, 3]
+		}
+	},
+	"groups": [
+		{
+			"name": "20",
+			"origin": [8, 8, 8],
+			"children": [0]
+		}
+	]
+}

@@ -1,0 +1,24 @@
+scoreboard players operation temp8 nex.data = in nex.data
+    
+execute store result score in nex.data run data get entity @s Pos[0]
+execute store result score in1 nex.data run data get entity @s Pos[2]
+
+function nexus:core/math/get_seed
+
+
+scoreboard players operation in nex.data = temp8 nex.data
+scoreboard players operation in1 nex.data = out nex.data
+
+
+function nexus:core/math/random_seeded
+
+
+scoreboard players reset temp nex.data
+scoreboard players reset temp1 nex.data
+scoreboard players reset temp2 nex.data
+scoreboard players reset temp3 nex.data
+scoreboard players reset temp4 nex.data
+scoreboard players reset temp5 nex.data
+scoreboard players reset temp6 nex.data
+scoreboard players reset temp7 nex.data
+scoreboard players reset temp8 nex.data

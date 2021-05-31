@@ -1,0 +1,31 @@
+var mode : string = args["mode"] != null ? args["mode"] : 0
+var min : int = args["min"] != null ? args["min"] : 0
+var max : int = args["max"] != null ? args["max"] : 0
+var out : pointer = args["out"] != null ? args["out"] : pointer<out->nex.data>
+var salt : int? = args["salt"]
+
+set in->nex.data = ${max - min}
+do if(salt != null)
+    set in1->nex.data = $salt
+
+switch (mode) {
+    case "BASIC": {
+        /function nexus:core/math/random
+        break
+    }
+    case "XY_SEEDED": {
+        /function nexus:core/math/random_xy_seeded
+        break
+    }
+    case "BLOCK_SEEDED": {
+        /function nexus:core/math/random_block_seeded
+        break
+    } 
+    case "SALTED_BLOCK_SEEDED": {
+        /function nexus:core/math/random_block_seeded_salted
+    }
+}
+do if (min != 0)
+    set out->nex.data += $min
+do if(out != pointer<out->nex.data>)
+    set $out = out->nex.data

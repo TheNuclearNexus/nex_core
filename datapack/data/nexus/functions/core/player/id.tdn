@@ -1,0 +1,9 @@
+@tag nexus:events/player/tick
+
+if entity @s[tag=!nex.id] function {
+scoreboard players add GlobalID nex.id 1
+scoreboard players operation @s nex.id = GlobalID nex.id
+
+tag @s add nex.id
+
+}

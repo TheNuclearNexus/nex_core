@@ -1,0 +1,193 @@
+@require nexus:ncstd/objects
+@require nexus:ncstd/collections
+
+define global class Element {
+    local var _item : CountedItem
+    public var show : function? = null
+    
+    public item {
+        get : CountedItem {
+            return _item
+        }
+        set(value : CountedItem) {
+            eval _item = value
+        }
+    }
+    
+    public new(item : item) {
+        eval this._item = new CountedItem(item, 1)
+    }
+    public new(item : item, count : int) {
+        eval this._item = new CountedItem(item, count)
+    }
+    public new(item : CountedItem) {
+        eval this._item = item
+    }
+}
+
+define global class Button : Element {
+    private var _func : function
+    
+    public func {
+        get : function {
+            return _func
+        }
+    }
+    
+    public new(item : item, func : function) {
+        eval this._item = new CountedItem(item, 1)
+        eval this._func = func
+    }
+    public new(item : item, count : int, func : function) {
+        eval this._item = new CountedItem(item, count)
+        eval this._func = func
+    }
+    public new(item : CountedItem, func : function) {
+        eval this._item = item
+        eval this._func = func
+    }
+    
+    public click() {
+        function $_func
+    }
+}
+define global class GuiType {
+    public static final var CONTAINER_27 = 1
+    public static final var CONTAINER_9 = 2
+    public static final var CONTAINER_5 = 3
+    public static final var CONTAINER_3 = 4
+    public static final var PLAYER = 5
+    public static final var HORSE = 6
+    public static final var ENDERCHEST = 7
+}
+
+define global class Gui {
+    private var _path : resource
+    private var _type : int
+    private var _cond : function? = null
+    private var _elements = new TypedDict<int, Element>()
+    private var _maxSlot : int = 36
+    
+    private var _show : resource
+    private var _update : resource
+    
+    public new(path : resource, type : int, condition : function) {
+        eval _path = path
+        eval _type = type
+        eval _cond = condition
+        
+        switch(_type) {
+            case GuiType.CONTAINER_27: {
+                eval _maxSlot = 27
+                break
+            }
+            case GuiType.CONTAINER_9: {
+                eval _maxSlot = 9
+                break
+            }
+            case GuiType.CONTAINER_5: {
+                eval _maxSlot = 5
+                break
+            }
+            case GuiType.CONTAINER_3: {
+                eval _maxSlot = 3
+                break
+            }
+            case GuiType.PLAYER: {
+                eval _maxSlot = 36
+                break
+            }
+            case GuiType.HORSE: {
+                eval _maxSlot = 15
+                break
+            }
+            case GuiType.ENDERCHEST: {
+                eval _maxSlot = 27
+                break
+            }
+        }
+        
+        eval _show = _path.resolve("show")
+        eval _update = _path.resolve("update")
+
+        define function ${_path.resolve("t_update")} {
+            @tag nexus:ncgui/update
+            eval _cond(update())
+        }
+        define function ${_path.resolve("t_show")} {
+            @tag nexus:ncgui/show
+            eval _cond(show())
+        }
+    }
+    
+    public show() {
+        return "function " + _show
+    }
+    
+    public update() {
+        return "function " + _update
+    }
+    
+    public genReplaceItem(i : int, item : CountedItem) {
+        do if (_type <= GuiType.CONTAINER_3) {
+            replaceitem block ~ ~ ~ ${"container." + i} ${item.item} ${item.count}
+        } else if(_type == GuiType.PLAYER) {
+            replaceitem entity @s ${"container." + i} ${item.item} ${item.count}
+        } else if(_type == GuiType.HORSE) {
+            replaceitem entity @s ${"horse." + i} ${item.item} ${item.count}
+        } else if(_type == GuiType.ENDERCHEST) {
+            replaceitem entity @s ${"enderchest." + i} ${item.item} ${item.count}
+        }
+    }
+    public genReplaceItem(i : int) {
+        eval genReplaceItem(i, _elements[i].item)
+    }
+    
+    public disableElement(i : int) {
+        do if(_type <= GuiType.CONTAINER_3)
+            data modify entity @s ArmorItems[0].tag.ncgui.disabled append value {s:${(tag_int)i}}
+        else
+            tag @s add ${"ncgui.disable" + i}
+    }
+    
+    public init() {
+
+        define function ${_show} {
+            do if(_type <= GuiType.CONTAINER_3)
+                data modify entity @s ArmorItems[0].tag.ncgui.disabled set value []
+            for(i in _elements.keys) {
+                do if(_type > GuiType.CONTAINER_3)
+                    tag @s remove ${"ncgui.disable" + i}
+                do if(_elements[i].show != null) {
+                    function ${_show.resolve("custom_" + i)} {
+                        eval _elements[i].show()
+                    }
+                } else {
+                    eval genReplaceItem(i)
+                }
+            }
+        }
+        define function ${_update} {
+            for(i in _elements.keys) {
+                do if (_elements[i] is Button) {
+                    var button = (Button)_elements[i]
+                    do if(_type <= GuiType.CONTAINER_3) {
+                        unless data entity @s {ArmorItems:[{tag:{ncgui:{disabled:[{s:${(tag_int)i}}]}}}]} unless data block ~ ~ ~ {Items:[{Slot:${(tag_byte)i}}]} function {eval button.func()}
+                    } else {
+                        unless entity @s[tag=${"ncgui.disable" + i}] unless data entity @s {Inventory:[{Slot:${(tag_byte)i}}]} function {eval button.func()}
+                    }
+                }
+            }
+        }
+    }
+    
+    public add(slot : int, e : Element) {
+        do if(slot < 0 || slot >= _maxSlot) throw "Slot number out of bounds for selected type"
+        eval _elements.add(slot, e)
+    }
+    
+    public get(slot : int) {
+        return _elements[slot]
+    }
+}
+

@@ -1,0 +1,110 @@
+@tag tick
+
+as @a at @s function #nexus:events/player/tick
+
+define function is_moving {
+    @tag nexus:events/player/tick
+    # Checks if the player is moving at all, as well as checking for specific movements
+    # "nex.moving" is the general moving
+    # "nex.p.walk", "nex.p.sprint", "nex.p.crouch", "nex.p.swim", "nex.p.fly", "nex.p.aviate"
+    
+    
+    tag @s remove nex.moving
+    
+    var actions = ["walk","sprint","crouch","fly","swim","aviate"]
+    
+    for (action in actions) {
+        
+        tag @s remove ${"nex.p." + action}
+        if score @s ${"nex.p." + action} matches 1.. function {
+            tag @s add ${"nex.p." + action}
+            tag @s add nex.moving
+            
+            set @s->${"nex.p."+action} = null
+        }
+        
+    }
+    
+}
+
+define function is_unplaceable {
+    @tag nexus:events/player/tick
+    
+    #Makes an items unplaceable or unuseable
+    
+    if entity @s[nbt={SelectedItem:{tag:{no_place:1b}}},gamemode=survival] function {
+        tag @s add nex.adventure
+        gamemode adventure
+    }
+    unless entity @s[nbt={SelectedItem:{tag:{no_place:1b}}}] if entity @s[tag=nex.adventure,gamemode=adventure] function {
+        tag @s remove nex.adventure
+        gamemode survival
+    }
+}
+
+define function is_sneaking {
+    @tag nexus:events/player/tick
+    
+    tag @s remove nex.sneaking
+    if score @s nex.sneak matches 1.. function {
+        tag @s add nex.sneaking
+        set @s->nex.sneak = 0
+    }
+    
+}
+
+define function get_name {
+    # Output puts the name of the player this is run as, to nex_core Temp
+    
+    loot replace block 420001 0 420001 container.0 loot nexus:player_head
+    
+    set nex_core~Temp = (420001 0 420001).Items[{Slot:0b}].tag.SkullOwner.Name
+}
+
+define function clear_gui_items {
+    @tag nexus:events/player/tick
+    
+    kill @e[type=item,nbt={Item:{tag:{gui:1b}}},distance=..5]
+    
+    if data entity @s Inventory[{tag:{gui:1b}}] function {
+         clear @s structure_void{gui:1b} 
+    }
+    
+    
+}
+
+define function break_spawner {
+    @tag nexus:events/player/tick
+    if score @s nex.b.spawner matches 1.. function {
+        as @e[type=item,distance=..7,nbt={Item:{tag:{nex_spawner:1b}}}] at @s function {
+            function #nexus:core/break_spawner
+            execute unless score temp0 du_data isset run kill @s[tag=!nex.is_custom] 
+        }
+        set @s->nex.b.spawner = 0
+    }
+}
+
+define function on_death {
+    @tag nexus:events/player/tick
+    
+    if score @s[tag=!nex.dead] nex.p.death matches 1.. function {
+        tag @s add nex.dead
+        function #nexus:events/player/on_death
+    }
+    
+    if entity @s[tag=nex.dead] unless data entity @s {Health:0.0f} function {
+        set @s->nex.p.death = 0
+        tag @s remove nex.dead
+        function #nexus:events/player/on_respawn
+    }
+}
+
+define function on_inventory_changed {
+    as @e[tag="nex.ncgui"] at @s /function #nexus:ncgui/update
+    /function #nexus:ncgui/update
+    clear @s #nexus:all{gui:1b}
+    kill @e[type=item,nbt={Item:{tag:{gui:1b}}}]
+    as @e[tag="nex.ncgui"] at @s /function #nexus:ncgui/show
+    /function #nexus:ncgui/show
+    advancement revoke @s only nexus:internal/inventory_changed
+}

@@ -1,0 +1,6 @@
+{
+   "parent":"nexus:gui/machines/power_bar",
+   "textures":{
+      "0":"nexus:gui/machines/power/3"
+   }
+}

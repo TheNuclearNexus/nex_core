@@ -1,0 +1,159 @@
+@tag chunk_scan:generate
+
+define function create_ore {
+    set in->nex.data = 15
+    
+    function nexus:core/math/random
+    set x->nex.data = out->nex.data
+    
+    function nexus:core/math/random
+    set z->nex.data = out->nex.data
+    
+    set in->nex.data = nex_core~Temp.height.min
+    set in1->nex.data = nex_core~Temp.height.max
+    
+    function nexus:core/math/random_min
+    set y->nex.data = out->nex.data
+    
+    set temp->nex.data = @s.Pos[0]
+    set x->nex.data += temp->nex.data
+    set @s.Pos[0] = x->nex.data
+    
+    set temp->nex.data = @s.Pos[1]
+    set y->nex.data += temp->nex.data
+    set @s.Pos[1] = y->nex.data
+    
+    set temp->nex.data = @s.Pos[2]
+    set z->nex.data += temp->nex.data
+    set @s.Pos[2] = z->nex.data
+    
+    set in->nex.data = nex_core~Temp.vein.min
+    set in1->nex.data = nex_core~Temp.vein.max
+    
+    function nexus:core/math/random_min
+    set v->nex.data = out->nex.data
+    at @s function {
+        set in->nex.data = 120
+        
+        function nexus:core/math/random
+        set temp->nex.data = out->nex.data
+        
+        set x->nex.data = 0
+        set z->nex.data = 0
+        if score temp nex.data matches 0..25 function {
+            set x->nex.data = 1
+        } 
+        if score temp nex.data matches 26..50 function {
+            set x->nex.data = -1
+        } 
+        if score temp nex.data matches 51..75 function {
+            set z->nex.data = 1
+        } 
+        if score temp nex.data matches 76..100 function {
+            set z->nex.data = -1
+        } 
+        if score temp nex.data matches 101..105 function {
+            set x->nex.data = 1
+            set z->nex.data = 1
+        } 
+        if score temp nex.data matches 106..110 function {
+            set x->nex.data = -1
+            set z->nex.data = 1
+        } 
+        if score temp nex.data matches 111..115 function {
+            set x->nex.data = 1
+            set z->nex.data = -1
+        } 
+        if score temp nex.data matches 116..120 function {
+            set x->nex.data = -1
+            set z->nex.data = -1
+        } 
+        
+        set in->nex.data = 100
+        function nexus:core/math/random
+        set temp->nex.data = out->nex.data
+        
+        set y->nex.data = 0
+        if score temp nex.data matches 88..100 function {
+            set y->nex.data = 1
+        }
+
+        
+
+        set temp->nex.data = @s.Pos[0]
+        set x->nex.data += temp->nex.data
+        set @s.Pos[0] = x->nex.data
+        
+        set temp->nex.data = @s.Pos[1]
+        set y->nex.data += temp->nex.data
+        set @s.Pos[1] = y->nex.data
+        
+        set temp->nex.data = @s.Pos[2]
+        set z->nex.data += temp->nex.data
+        set @s.Pos[2] = z->nex.data
+        
+        set temp->nex.data = nex_core~Temp.id
+        at @s if block ~ ~ ~ #nexus:ore_spawn function {
+            function #nexus:core/place_ore
+            tag @s add placed
+        }
+        
+        #set temp1->nex.data = v->nex.data
+        #set temp1->nex.data %= 2
+        set v->nex.data -= 1
+        at @s[tag=placed] if score v nex.data matches 1.. function /
+        if entity @s[tag=!placed] if score v nex.data matches 1.. function /
+        tag @s remove placed
+        #unless score temp1 nex.data matches 0 at @s if score v nex.data matches 1.. function /
+    }
+}
+
+define function pick_ore {
+    store result score temp nex.data data get storage nex_core Ores
+    
+    
+    set in->nex.data = 0
+    set vs->nex.data = 0
+    if score temp nex.data matches 1 set vs->nex.data = 1
+    if score temp nex.data matches 2.. function {
+        set in->nex.data = 4
+        if score temp nex.data matches ..3 set in->nex.data = temp->nex.data 
+    }
+    
+    if score in nex.data matches 2.. function { 
+        function nexus:core/math/random
+        set vs -> nex.data = out->nex.data
+        set vs->nex.data += 1
+    }
+    
+    if score vs nex.data matches 1.. function {
+        set temp1->nex.data = null
+        function {
+            set nex_core~Temp = nex_core~Ores
+            store result score in nex.data data get storage nex_core Temp
+            function nexus:core/math/random
+            set in->nex.data = out->nex.data
+            function nexus:core/array/get_element
+            
+            set temp2->nex.data = nex_core~Temp.id
+            
+            
+            unless score temp2 nex.data = temp1 nex.data function {
+                set temp1->nex.data = temp2->nex.data
+                set in->nex.data = 100
+                function nexus:core/math/random
+                
+                set temp->nex.data = nex_core~Temp.rarity
+                if score out nex.data <= temp nex.data function {
+                    function nexus:core/world_gen/generate/create_ore
+                }
+            }
+            
+            
+            set vs->nex.data -= 1
+            if score vs nex.data matches 1.. function /
+        }
+    }
+}
+
+function nexus:core/world_gen/generate/pick_ore

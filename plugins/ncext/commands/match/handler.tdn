@@ -1,0 +1,46 @@
+var values : list = args["values"]
+var funcs : list = args["funcs"]
+var defaultFunc : function? = args["defaultFunc"]
+
+var mode = "SCORE"
+
+switch(type_definition.of(args["input"])) {
+    case type_definition<coordinates>: {
+        eval mode = "BLOCK"
+        break
+    }
+    case type_definition<pointer>: {
+        eval mode = "SCORE"
+        break
+    }
+        
+}
+
+var input = args["input"]
+
+log info mode
+
+var generateDefault = function(i : int, end : int) {
+    do if(i < values.length && i < end) {
+        do if(mode == "SCORE")
+            unless score deref $input matches ${values[i]} expand {eval generateDefault(i+1, end)}
+        else if(mode == "BLOCK")
+            unless block $input ${values[i]} expand {eval generateDefault(i+1, end)}
+    } else {
+        function {
+            do if(funcs[end] != null)
+                eval funcs[end]()
+        }
+    }
+} 
+
+for(var i = 0; i < values.length; i++) {
+    do if(values[i] == "default" || values[i] == "_") {
+        eval generateDefault(0, i)
+        break
+    }
+    do if(mode == "SCORE")
+        if score deref $input matches ${values[i]} function {eval funcs[i]()}
+    else if(mode == "BLOCK")
+        if block $input ${values[i]} function {eval funcs[i]()}
+}

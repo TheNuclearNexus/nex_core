@@ -1,0 +1,33 @@
+{
+  "providers": [
+        {
+            "type": "bitmap",
+            "file": "nexus:gui/machines/generator.png",
+            "ascent": 13,
+            "height": 256.0,
+            "chars": [
+            "\uF000"
+            ]
+        },
+        {"type": "bitmap","file": "nexus:gui/machines/generator/power/1.png","ascent": 13,"height": 256.0,"chars": ["\uF001"]},
+        {"type": "bitmap","file": "nexus:gui/machines/generator/power/2.png","ascent": 13,"height": 256.0,"chars": ["\uF002"]},
+        {"type": "bitmap","file": "nexus:gui/machines/generator/power/3.png","ascent": 13,"height": 256.0,"chars": ["\uF003"]},
+        {"type": "bitmap","file": "nexus:gui/machines/generator/power/4.png","ascent": 13,"height": 256.0,"chars": ["\uF004"]},
+        {"type": "bitmap","file": "nexus:gui/machines/generator/power/5.png","ascent": 13,"height": 256.0,"chars": ["\uF005"]},
+        {"type": "bitmap","file": "nexus:gui/machines/generator/power/6.png","ascent": 13,"height": 256.0,"chars": ["\uF006"]},
+        {"type": "bitmap","file": "nexus:gui/machines/generator/power/7.png","ascent": 13,"height": 256.0,"chars": ["\uF007"]},
+        {"type": "bitmap","file": "nexus:gui/machines/generator/power/8.png","ascent": 13,"height": 256.0,"chars": ["\uF008"]},
+        {"type": "bitmap","file": "nexus:gui/machines/generator/power/9.png","ascent": 13,"height": 256.0,"chars": ["\uF009"]},
+        {"type": "bitmap","file": "nexus:gui/machines/generator/power/10.png","ascent": 13,"height": 256.0,"chars": ["\uF010"]},
+        {"type": "bitmap","file": "nexus:gui/machines/generator/power/11.png","ascent": 13,"height": 256.0,"chars": ["\uF011"]},
+        {"type": "bitmap","file": "nexus:gui/machines/generator/power/12.png","ascent": 13,"height": 256.0,"chars": ["\uF012"]},
+        {"type": "bitmap","file": "nexus:gui/machines/generator/power/13.png","ascent": 13,"height": 256.0,"chars": ["\uF013"]},
+        {"type": "bitmap","file": "nexus:gui/machines/generator/power/14.png","ascent": 13,"height": 256.0,"chars": ["\uF014"]},
+        {"type": "bitmap","file": "nexus:gui/machines/generator/power/15.png","ascent": 13,"height": 256.0,"chars": ["\uF015"]},
+        {"type": "bitmap","file": "nexus:gui/machines/generator/power/16.png","ascent": 13,"height": 256.0,"chars": ["\uF016"]},
+        {"type": "bitmap","file": "nexus:gui/machines/generator/power/17.png","ascent": 13,"height": 256.0,"chars": ["\uF017"]},
+        {"type": "bitmap","file": "nexus:gui/machines/generator/power/18.png","ascent": 13,"height": 256.0,"chars": ["\uF018"]},
+        {"type": "bitmap","file": "nexus:gui/machines/generator/power/19.png","ascent": 13,"height": 256.0,"chars": ["\uF019"]},
+        {"type": "bitmap","file": "nexus:gui/machines/generator/power/20.png","ascent": 13,"height": 256.0,"chars": ["\uF020"]}
+    ]
+}

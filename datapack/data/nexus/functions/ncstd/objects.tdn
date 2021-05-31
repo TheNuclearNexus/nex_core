@@ -1,0 +1,82 @@
+@priority 100
+
+define global class CountedItem {
+    private var _count : int
+    private var _item : item
+    public count {
+        get : int {
+            return _count
+        }
+    }
+    public item {
+        get : item {
+            return _item
+        }
+    }
+    public new(item : item, count : int) {
+        eval _item = item
+        eval _count = count
+    }
+    public new(item : item) {
+        eval _item = item
+        eval _count = 1
+    }
+}
+
+define global class IComparable {
+    public virtual compareTo(b : IComparable) : int {
+        throw "IComparable does not contain implementation"
+    }
+}
+
+define global class StringUtil {
+    public static compareTo(a : string, b : string) : int {
+        for(var i = 0; i < a.length && i < b.length; i++) {
+            var ia = Character.toCodePoint(a[i]) 
+            var ib = Character.toCodePoint(b[i]) 
+            
+            do if(ia == ib) {
+                continue
+            }
+            else
+                return ia - ib
+        }
+        
+        do if(a.length == b.length) return 0
+        else return a.length - b.length
+    }
+}
+
+define global class KeyPair<T1, T2> : IComparable {
+    private var _key : T1
+    private var _value : T2
+    
+    public key {
+        get : T1 {
+            return _key
+        }
+    }
+    
+    public value {
+        get : T2 {
+            return _value
+        }
+        set(value : T2) {
+            eval _value = value
+        }
+    }
+    
+    public new(key : T1, value : T2) {
+        eval _key = key
+        eval _value = value
+    }
+    
+    public override compareTo(b : IComparable) : int {
+        var other : KeyPair<T1, T2> = (KeyPair<T1, T2>)b
+        return CollectionUtil.compare(this.key, other.key)
+    }
+    
+    public override toString() : string {
+        return "{" + _key + ": " + _value + "}"
+    }
+}

@@ -1,0 +1,29 @@
+#assign placeholder
+set temp3->nex.data = in->nex.data
+set temp4->nex.data = in1->nex.data
+
+# in << 13
+set temp->nex.data = 8192
+set in1->nex.data = in->nex.data
+set in1->nex.data *= temp->nex.data
+function nexus:core/math/xor_bitwise
+set in->nex.data = out->nex.data
+
+# in >> 17
+set temp->nex.data = 131072
+set in1->nex.data = in->nex.data
+set in1->nex.data /= temp->nex.data
+function nexus:core/math/xor_bitwise
+set in->nex.data = out->nex.data
+
+# in << 5
+set temp->nex.data = 32
+set in1->nex.data = in->nex.data
+set in1->nex.data *= temp->nex.data
+function nexus:core/math/xor_bitwise
+
+#return out
+
+#reset in & in1
+set in->nex.data = temp3->nex.data
+set in1->nex.data = temp4->nex.data

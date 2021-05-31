@@ -1,0 +1,30 @@
+############################################################
+# Description: Calculates protection into the damage formula
+# Creator: CreeperMagnet_
+############################################################
+
+# Get all armor values and add them together
+execute store result score temp0 nex.data run data get entity @s Inventory[{Slot:103b}].tag.Enchantments[{id:"minecraft:protection"}].lvl
+scoreboard players operation temp1 nex.data = temp0 nex.data
+execute store result score temp0 nex.data run data get entity @s Inventory[{Slot:102b}].tag.Enchantments[{id:"minecraft:protection"}].lvl
+scoreboard players operation temp1 nex.data += temp0 nex.data
+execute store result score temp0 nex.data run data get entity @s Inventory[{Slot:101b}].tag.Enchantments[{id:"minecraft:protection"}].lvl
+scoreboard players operation temp1 nex.data += temp0 nex.data
+execute store result score temp0 nex.data run data get entity @s Inventory[{Slot:100b}].tag.Enchantments[{id:"minecraft:protection"}].lvl
+scoreboard players operation temp1 nex.data += temp0 nex.data
+
+# Make the damage number based on that
+
+  # Multiply by 100 to maintain precision
+set temp1->nex.data *= 100
+  # Divide by 25 per the formula
+set temp1->nex.data /= 25
+
+  # Then subtract it all from 1 (100)
+
+scoreboard players set temp0 nex.data 100
+scoreboard players operation temp0 nex.data -= temp1 nex.data
+
+  # Multiply the damage by the end result, then divide by 100 to get proper precision back.
+scoreboard players operation nex.damage nex.data *= temp0 nex.data
+set nex.damage->nex.data /= 100 
